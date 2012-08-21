@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+	<!-- Imported resources for cxf -->
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+	
+	<!-- Imported bean for dao -->
+	<import resource="classpath:META-INF/spring/dao.xml"/>
+
+	<bean id="customersService" class="com.test.services.customers.rest.CustomersServiceJSON">
+		<property name="customersDAO" ref="customersDAO"/>
+	</bean>
+
+	<bean id="preInvokeHandler" class="com.test.services.rest.PreInvokeHandler" />
+	<bean id="customExceptionMapper" class="com.test.services.rest.CustomExceptionMapper" />
+
+	<jaxrs:server id="restContainer" address="/customer">
+		<jaxrs:serviceBeans>
+			<ref bean="customersService" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean="preInvokeHandler" />
+			<ref bean="customExceptionMapper" />
+		</jaxrs:providers>
+	</jaxrs:server>
+</beans>
