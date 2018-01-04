@@ -118,7 +118,7 @@ public class CustomersDAO implements ICustomersDAO {
 
 	public List<Customer> getCustomersList(CustomerListParameters parameters) {
 		List<Customer> CustomerList = (List<Customer>) templCustomer.query(
-				"SELECT * FROM customers.customer;", new RowMapper<Customer>() {
+				"SELECT * FROM customer;", new RowMapper<Customer>() {
 					public Customer mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
 						Customer customer = new Customer();
